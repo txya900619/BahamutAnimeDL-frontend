@@ -1,0 +1,17 @@
+<template>
+  <v-app id="inspire">
+    <Bar></Bar>
+    <v-content>
+      <v-container>
+        <router-view />
+      </v-container>
+    </v-content>
+  </v-app>
+</template>
+
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+import Bar from "../components/Bar.vue";
+@Component({ components: { Bar } })
+export default class Main extends Vue {}
+</script>
