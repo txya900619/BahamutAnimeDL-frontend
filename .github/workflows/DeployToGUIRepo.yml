@@ -13,6 +13,8 @@ jobs:
         with:
           repository: txya900619/BahamutAnimeDL-GUI
           path: GUI
+          persist-credentials: false
+          fetch-depth: 0
 
       - name: install node
         uses: actions/setup-node@v1
