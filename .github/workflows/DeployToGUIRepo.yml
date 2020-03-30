@@ -39,6 +39,6 @@ jobs:
       - name: push to GUI
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           directory: "GUI"
           repository: "txya900619/BahamutAnimeDL-GUI"
