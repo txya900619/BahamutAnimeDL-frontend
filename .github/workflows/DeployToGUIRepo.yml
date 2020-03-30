@@ -11,7 +11,9 @@ jobs:
       - name: check out GUI repo
         uses: actions/checkout@v2
         with:
+          repository: txya900619/BahamutAnimeDL-GUI
           path: GUI
+
       - name: install node
         uses: actions/setup-node@v1
         with:
