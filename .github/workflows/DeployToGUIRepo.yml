@@ -1,0 +1,42 @@
+name: Build and Deploy
+on: [push]
+jobs:
+  Checkout-and-Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out this repo
+        uses: actions/checkout@v2
+        with:
+          path: UI
+      - name: check out GUI repo
+        uses: actions/checkout@v2
+        with:
+          path: GUI
+      - name: install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: npm ci and build in ui folder
+        run: |
+          cd UI
+          npm install
+          npm build
+      - name: copy dist to GUI folder
+        run: |
+          cd GUI
+          rm -rf dist
+          cp -r ../UI/dist ./
+      - name: Commit files
+        run: |
+          cd GUI
+          git config --local user.email ${{ secrets.USER_EMAIL }}
+          git config --local user.name ${{ secrets.USER_NAME }}
+          git add .
+          git commit -m "Update UI file"
+
+      - name: push to GUI
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          directory: "GUI"
+          repository: "txya900619/BahamutAnimeDL-GUI"
