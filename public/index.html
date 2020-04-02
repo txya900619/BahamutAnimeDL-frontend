@@ -15,7 +15,9 @@
       href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css"
     />
   </head>
-  <body style="-webkit-user-select: none; -webkit-touch-callout: none; -moz-user-select: none; -ms-user-select: none; user-select: none;">
+  <body
+    style="-webkit-user-select: none; -webkit-touch-callout: none; -moz-user-select: none; -ms-user-select: none; user-select: none;"
+  >
     <noscript>
       <strong
         >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
@@ -59,9 +61,7 @@
       "Tab",
       "PageUp",
       "PageDown",
-      "F4",
-      "F5",
-      "F12"
+      "F4"
     ]);
     const cmdCodes = new Set(["BracketLeft", "BracketRight", "Comma"]);
     const cmdOptionCodes = new Set(["ArrowLeft", "ArrowRight", "KeyB"]);
@@ -112,5 +112,41 @@
         event.preventDefault();
       }
     });
+    document.onkeydown = function(e) {
+      if (e.keyCode === 116 || e.keyCode === 123) {
+        return false;
+      }
+      if (
+        e.ctrlKey &&
+        (e.keyCode === 83 ||
+          e.keyCode === 85 ||
+          e.keyCode === 70 ||
+          e.keyCode === 72 ||
+          e.keyCode === 74)
+      ) {
+        return false;
+      }
+      if (
+        e.ctrlKey &&
+        (e.keyCode === 107 ||
+          e.keyCode === 109 ||
+          e.keyCode === 67 ||
+          e.keyCode === 173 ||
+          e.keyCode === 187 ||
+          e.keyCode === 189)
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+    window.addEventListener(
+      "mousewheel",
+      function(e) {
+        if (e.ctrlKey) {
+          e.preventDefault();
+        }
+      },
+      { passive: false }
+    );
   </script>
 </html>

@@ -49,7 +49,7 @@ export default class Bar extends Vue {
 
   @Watch("search")
   onSearchChange() {
-    console.log(this.search);
+    console.log(1);
   }
 }
 </script>
