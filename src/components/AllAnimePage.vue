@@ -10,7 +10,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import AnimeCard from "@/components/AnimeCard.vue";
+const AnimeCard = () => import("@/components/AnimeCard.vue");
 @Component({
   components: { AnimeCard },
 })
