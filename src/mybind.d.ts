@@ -1,6 +1,7 @@
 declare global {
   interface Window {
-    getAnimeList: () => Promise<any>;
+    getNewAnimeList: () => Promise<any>;
+    getAllAnimeList: () => Promise<any>;
   }
 }
 export default Window;

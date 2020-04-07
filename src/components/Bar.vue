@@ -8,17 +8,15 @@
       style="z-index:5;padding-top:64px;"
     >
       <v-list nav>
-        <v-list-item-group
-          v-model="vGroup"
+        <v-list-item active-class="deep-purple--text text--accent-4" to="/">
+          <v-list-item-title>本季新番</v-list-item-title>
+        </v-list-item>
+        <v-list-item
           active-class="deep-purple--text text--accent-4"
+          to="/Animations"
         >
-          <v-list-item>
-            <v-list-item-title>本季新番</v-list-item-title>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>yee</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
+          <v-list-item-title>yee</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar clipped-left app>
@@ -40,16 +38,14 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 @Component
 export default class Bar extends Vue {
   drawer = false;
-  vGroup = 0;
   search = "";
-  @Watch("vGroup")
-  onVlistGroupSelect() {
-    this.drawer = false;
+  mounted() {
+    this.$store.commit("getNewAnime");
+    this.$store.commit("getAllAnime");
   }
-
   @Watch("search")
-  onSearchChange() {
-    console.log(1);
+  whenSearchChange() {
+    this.$store.commit("changeSearch", this.search);
   }
 }
 </script>

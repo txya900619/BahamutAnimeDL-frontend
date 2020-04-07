@@ -2,7 +2,7 @@
   <v-row>
     <AnimeCard
       v-for="anime in animeData"
-      :key="anime.sn"
+      :key="anime.ref"
       :animeImg="anime.img"
       :title="anime.title"
     ></AnimeCard>
@@ -14,9 +14,15 @@ import AnimeCard from "@/components/AnimeCard.vue";
 @Component({
   components: { AnimeCard },
 })
-export default class NewAnimePage extends Vue {
+export default class AllAnimePage extends Vue {
   get animeData() {
-    return this.$store.getters.newAnime;
+    if (this.search == "") {
+      return this.$store.getters.allAnime;
+    }
+    return this.$store.getters.filteredAnime;
+  }
+  get search() {
+    return this.$store.getters.search;
   }
 }
 </script>
