@@ -4,6 +4,7 @@
     height="100%"
     class="white--text align-end"
     gradient="to bottom,rgba(0,0,0,0),rgba(0,0,0,.5)"
+    @error="whenImgLoadError"
   >
     <v-card-title
       v-text="title"
@@ -19,5 +20,9 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 export default class AnimeImg extends Vue {
   @Prop(String) srcURL?: string;
   @Prop(String) title?: string;
+  @Prop(String) remoteImg?: string;
+  whenImgLoadError(e: { target: HTMLImageElement }) {
+    e.target.src = this.remoteImg!;
+  }
 }
 </script>

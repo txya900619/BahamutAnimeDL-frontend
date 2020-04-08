@@ -13,5 +13,6 @@ const AnimeImg = () => import("./AnimeImg.vue");
 export default class AnimeCard extends Vue {
   @Prop(String) animeImg?: string;
   @Prop(String) title?: string;
+  @Prop(String) remoteImg?: string;
 }
 </script>

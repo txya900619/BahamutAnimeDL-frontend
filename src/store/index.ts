@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     newAnime: [],
-    allAnime: [{ title: "qwe" }],
+    allAnime: [{ title: "qwe", img: "123" }],
     search: "",
   },
   mutations: {

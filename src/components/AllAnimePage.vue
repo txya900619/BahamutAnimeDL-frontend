@@ -5,6 +5,7 @@
       :key="anime.ref"
       :animeImg="anime.img"
       :title="anime.title"
+      :remoteImg="anime.remote_img"
     ></AnimeCard>
   </v-row>
 </template>
