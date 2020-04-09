@@ -1,6 +1,6 @@
 <template>
   <v-img
-    :src="srcURL"
+    :src="src"
     height="100%"
     class="white--text align-end"
     gradient="to bottom,rgba(0,0,0,0),rgba(0,0,0,.5)"
@@ -21,8 +21,10 @@ export default class AnimeImg extends Vue {
   @Prop(String) srcURL?: string;
   @Prop(String) title?: string;
   @Prop(String) remoteImg?: string;
-  whenImgLoadError(e: { target: HTMLImageElement }) {
-    e.target.src = this.remoteImg!;
+  src = this.srcURL;
+  whenImgLoadError() {
+    console.log(this.remoteImg);
+    this.src = this.remoteImg;
   }
 }
 </script>
