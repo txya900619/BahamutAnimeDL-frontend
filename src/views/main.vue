@@ -3,7 +3,9 @@
     <Bar></Bar>
     <v-content>
       <v-container>
-        <router-view />
+        <keep-alive>
+          <router-view />
+        </keep-alive>
       </v-container>
     </v-content>
   </v-app>

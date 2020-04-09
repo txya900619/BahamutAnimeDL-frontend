@@ -15,7 +15,7 @@
           active-class="deep-purple--text text--accent-4"
           to="/Animations"
         >
-          <v-list-item-title>yee</v-list-item-title>
+          <v-list-item-title>所有動畫</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
