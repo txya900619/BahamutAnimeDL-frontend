@@ -1,7 +1,8 @@
 <template>
   <v-col md="4" lg="3" cols="6">
     <v-card height="100%">
-      <AnimeImg :srcURL="animeImg" :title="title"> </AnimeImg>
+      <AnimeImg :srcURL="animeImg" :title="title" :remoteImg="remoteImg">
+      </AnimeImg>
     </v-card>
   </v-col>
 </template>
