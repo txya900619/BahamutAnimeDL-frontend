@@ -36,10 +36,5 @@ export default new Vuex.Store({
     search: (state) => {
       return state.search;
     },
-    filteredAnime: (state) => {
-      return state.allAnime.filter(
-        (anime) => anime.title.indexOf(state.search) >= 0
-      );
-    },
   },
 });
