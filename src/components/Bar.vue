@@ -41,7 +41,6 @@ export default class Bar extends Vue {
   search = "";
   mounted() {
     this.$store.commit("getNewAnime");
-    this.$store.commit("getAllAnime");
   }
   @Watch("search")
   whenSearchChange() {

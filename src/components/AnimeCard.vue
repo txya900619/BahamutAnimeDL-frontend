@@ -1,5 +1,5 @@
 <template>
-  <v-col md="4" lg="3" cols="6">
+  <v-col md="4" lg="2" cols="6">
     <v-card height="100%">
       <v-img
         :src="src"
@@ -27,7 +27,6 @@ export default class AnimeCard extends Vue {
   @Prop(String) remoteImg?: string;
   src = this.animeImg;
   whenImgLoadError() {
-    console.log(this.remoteImg);
     this.src = this.remoteImg;
   }
 }

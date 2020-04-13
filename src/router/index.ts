@@ -15,21 +15,21 @@ const routes = [
       {
         path: "/",
         name: "NewAnimePage",
-        component: NewAnimePage,
+        component: NewAnimePage
       },
       {
         path: "/Animations",
         name: "AllAnimePage",
-        component: AllAnimePage,
-      },
-    ],
-  },
+        component: AllAnimePage
+      }
+    ]
+  }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 export default router;

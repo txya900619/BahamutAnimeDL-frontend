@@ -12,7 +12,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import AnimeCard from "@/components/AnimeCard.vue";
 @Component({
-  components: { AnimeCard },
+  components: { AnimeCard }
 })
 export default class NewAnimePage extends Vue {
   get animeData() {
