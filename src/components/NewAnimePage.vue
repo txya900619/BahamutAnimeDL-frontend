@@ -1,11 +1,8 @@
 <template>
   <v-row>
-    <AnimeCard
-      v-for="anime in animeData"
-      :key="anime.sn"
-      :animeImg="anime.img"
-      :title="anime.title"
-    ></AnimeCard>
+    <v-col md="4" lg="3" cols="6" v-for="anime in animeData" :key="anime.sn">
+      <AnimeCard :animeImg="anime.img" :title="anime.title"></AnimeCard>
+    </v-col>
   </v-row>
 </template>
 <script lang="ts">

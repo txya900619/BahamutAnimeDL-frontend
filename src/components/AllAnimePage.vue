@@ -1,12 +1,8 @@
 <template>
   <v-row>
-    <AnimeCard
-      v-for="anime in animeData"
-      :key="anime.ref"
-      :animeImg="anime.img"
-      :title="anime.title"
-      :remoteImg="anime.remote_img"
-    ></AnimeCard>
+    <v-col md="4" lg="2" cols="6" v-for="anime in animeData" :key="anime.ref">
+      <AnimeCard :animeImg="anime.img" :title="anime.title"></AnimeCard>
+    </v-col>
     <v-pagination
       v-model="page"
       :length="maxPage"
@@ -50,17 +46,7 @@ export default class AllAnimePage extends Vue {
   }
   @Watch("search")
   OnSearchChange() {
-    if (this.search != "") {
-      this.showPagination = false;
-      window.getAnimesByFilter(this.search).then(result => {
-        this.animeData = JSON.parse(result);
-      });
-    } else {
-      this.showPagination = true;
-      window.getAnimesByPage(this.page).then(result => {
-        this.animeData = JSON.parse(result);
-      });
-    }
+    return;
   }
 }
 </script>

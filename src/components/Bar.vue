@@ -16,7 +16,7 @@
           to="/Animations"
         >
           <v-list-item-title>所有動畫</v-list-item-title>
-        </v-list-item>
+        </template>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar clipped-left app>
@@ -26,7 +26,6 @@
         hide-details
         prepend-inner-icon="mdi-magnify"
         label="search"
-        clearable
         v-model="search"
       ></v-text-field>
       <v-spacer />
