@@ -3,12 +3,12 @@
     <Bar></Bar>
     <v-content>
       <v-container>
-        <div v-if="showPage">
+        <div v-show="showPage">
           <keep-alive>
             <router-view />
           </keep-alive>
         </div>
-        <div v-if="!showPage">
+        <div v-show="!showPage">
           <keep-alive>
             <SearchPage> </SearchPage>
           </keep-alive>
