@@ -1,28 +1,25 @@
 <template>
-  <v-row>
-    <v-col md="4" lg="2" cols="6" v-for="anime in animeData" :key="anime.ref">
-      <AnimeCard :animeImg="anime.img" :title="anime.title"></AnimeCard>
-    </v-col>
+  <v-item-group>
+    <AnimeList size="big" :animeData="animeData" />
     <v-pagination
       v-model="page"
       :length="maxPage"
       total-visible="10"
       v-show="showPagination"
     ></v-pagination>
-  </v-row>
+  </v-item-group>
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import AnimeCard from "@/components/AnimeCard.vue";
+import AnimeList from "@/components/AnimeList.vue";
 @Component({
-  components: { AnimeCard }
+  components: { AnimeList }
 })
 export default class AllAnimePage extends Vue {
   animeData: {
     ref: string;
     img: string;
     title: string;
-    remote_img: string;
   }[] = [];
   page = 1;
   maxPage = 0;
@@ -42,11 +39,8 @@ export default class AllAnimePage extends Vue {
   OnPageChange() {
     window.getAnimesByPage(this.page).then(result => {
       this.animeData = JSON.parse(result);
+      console.log(this.animeData);
     });
-  }
-  @Watch("search")
-  OnSearchChange() {
-    return;
   }
 }
 </script>

@@ -44,7 +44,6 @@ export default class SearchPage extends Vue {
     } else {
       this.searchUpdateTime = new Date().valueOf();
       this.animeData = [];
-      console.log(1);
     }
   }
 }

@@ -1,15 +1,11 @@
 <template>
-  <v-row>
-    <v-col md="4" lg="3" cols="6" v-for="anime in animeData" :key="anime.sn">
-      <AnimeCard :animeImg="anime.img" :title="anime.title"></AnimeCard>
-    </v-col>
-  </v-row>
+  <AnimeList :animeData="animeData" size="small"></AnimeList>
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import AnimeCard from "@/components/AnimeCard.vue";
+import AnimeList from "@/components/AnimeList.vue";
 @Component({
-  components: { AnimeCard }
+  components: { AnimeList }
 })
 export default class NewAnimePage extends Vue {
   get animeData() {
