@@ -38,6 +38,9 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 export default class Bar extends Vue {
   drawer = false;
   search = "";
+  get selectMode() {
+    return this.$store.getters.selectMode;
+  }
   mounted() {
     this.$store.commit("getNewAnime");
   }

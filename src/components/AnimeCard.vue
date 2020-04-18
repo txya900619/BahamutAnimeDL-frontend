@@ -3,7 +3,7 @@
     height="100%"
     @mousedown="onMouseDown"
     @mouseout="cancelTimer"
-    @click="cancelTimer"
+    @click="onClick"
   >
     <v-img
       :src="src"
@@ -37,12 +37,21 @@ export default class AnimeCard extends Vue {
       this.timer = null;
     }
   }
-  @Emit("longPress")
-  checkLongPress() {
-    this.timer = null;
+  onClick() {
+    this.cancelTimer();
+    if (this.$store.getters.selectMode) {
+      this.clickOnSelectMode();
+    }
   }
+
   onMouseDown() {
-    this.timer = setTimeout(this.checkLongPress, 500);
+    this.timer = setTimeout(this.clickOnSelectMode, 500);
+  }
+  @Emit("clickOnSelectMOde")
+  clickOnSelectMode() {
+    if (!this.$store.getters.selectMode) {
+      this.$store.commit("toSelectMode");
+    }
   }
 }
 </script>
