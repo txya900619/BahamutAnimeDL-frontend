@@ -1,13 +1,20 @@
 <template>
   <div>
     <v-row>
-      <v-col md="4" lg="2" cols="6" v-for="anime in animeData" :key="anime.ref">
+      <v-col
+        md="4"
+        lg="2"
+        cols="6"
+        v-for="(anime, index) in animeData"
+        :key="anime.ref"
+      >
         <AnimeCard
-          :v-show="active ? false : true"
+          :indexInPage="index"
           :animeImg="anime.img"
           :animeTitle="anime.title"
           :animeRef="anime.ref"
-          @click="toggle"
+          :isSelectedOnRender="selectedIndexInPages[page - 1][index]"
+          @clickOnSelectMode="clickOnSelectMode"
         ></AnimeCard>
       </v-col>
     </v-row>
@@ -32,23 +39,38 @@ export default class AllAnimePage extends Vue {
   page = 1;
   maxPage = 0;
   showPagination = true;
-  get search() {
-    return this.$store.getters.search;
-  }
-  mounted() {
-    window.getAnimesByPage(1).then((result) => {
-      this.animeData = JSON.parse(result);
-    });
-    window.getMaxPage().then((result) => {
-      this.maxPage = result;
-    });
+  selectedAnimes: string[] = [];
+  selectedIndexInPages: boolean[][] = [];
+
+  async mounted() {
+    this.maxPage = await window.getMaxPage();
+    for (let i = 0; i < this.maxPage; i++) {
+      const defaultSet: boolean[] = [];
+      for (let j = 0; j < 18; j++) {
+        defaultSet.push(false);
+      }
+      this.selectedIndexInPages.push(defaultSet);
+    }
+    this.animeData = JSON.parse(await window.getAnimesByPage(1));
   }
   @Watch("page")
   OnPageChange() {
-    window.getAnimesByPage(this.page).then((result) => {
+    window.getAnimesByPage(this.page).then(result => {
       this.animeData = JSON.parse(result);
-      console.log(this.animeData);
     });
+  }
+  async clickOnSelectMode(info: {
+    isSelect: boolean;
+    index: number;
+    ref: string;
+  }) {
+    this.selectedIndexInPages[this.page - 1][info.index] = info.isSelect;
+    const sn = await window.getRealSn(info.ref);
+    if (info.isSelect) {
+      this.selectedAnimes = this.selectedAnimes.filter(value => value !== sn);
+    } else {
+      this.selectedAnimes.push(sn);
+    }
   }
 }
 </script>

@@ -9,7 +9,11 @@
       :src="src"
       height="100%"
       class="white--text align-end"
-      gradient="to bottom,rgba(0,0,0,0),rgba(0,0,0,.5)"
+      :gradient="
+        isSelected
+          ? 'rgba(0,0,0,0) 1%,#42A5F5 '
+          : 'to bottom,rgba(0,0,0,0),rgba(0,0,0,.5)'
+      "
       lazy-src="@/assets/empty.png"
     >
       <v-card-title
@@ -22,15 +26,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Emit } from "vue-property-decorator";
+import { Component, Vue, Prop, Emit, Watch } from "vue-property-decorator";
 @Component
 export default class AnimeCard extends Vue {
   @Prop(String) animeImg?: string;
   @Prop(String) animeTitle?: string;
   @Prop(String) animeSn?: string;
   @Prop(String) animeRef?: string;
+  @Prop(Number) indexInPage?: number;
+  @Prop(Boolean) isSelectedOnRender?: boolean;
   src = this.animeImg;
   timer: number | null | undefined = null;
+  firstSelected = false;
+  isSelected = this.isSelectedOnRender;
+
+  get selectMode() {
+    return this.$store.getters.selectMode;
+  }
+  @Watch("selectMode")
+  onSelectModeChange() {
+    if (!this.selectMode) {
+      this.isSelected = false;
+    }
+  }
   cancelTimer() {
     if (this.timer !== null) {
       clearTimeout(this.timer);
@@ -39,19 +57,34 @@ export default class AnimeCard extends Vue {
   }
   onClick() {
     this.cancelTimer();
-    if (this.$store.getters.selectMode) {
+    if (this.firstSelected) {
+      this.firstSelected = false;
+      return;
+    }
+    if (this.selectMode) {
       this.clickOnSelectMode();
     }
   }
 
   onMouseDown() {
-    this.timer = setTimeout(this.clickOnSelectMode, 500);
+    if (!this.selectMode) {
+      this.timer = setTimeout(this.clickOnSelectMode, 500);
+    }
   }
-  @Emit("clickOnSelectMOde")
+  @Emit("clickOnSelectMode")
   clickOnSelectMode() {
-    if (!this.$store.getters.selectMode) {
+    if (!this.selectMode) {
+      this.firstSelected = true;
       this.$store.commit("toSelectMode");
     }
+    return new Promise(resolve => {
+      resolve({
+        isSelected: this.isSelected,
+        index: this.indexInPage,
+        ref: this.animeRef
+      });
+      this.isSelected = !this.isSelected;
+    });
   }
 }
 </script>

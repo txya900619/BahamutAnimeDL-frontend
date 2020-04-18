@@ -19,16 +19,26 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar clipped-left app>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-app-bar clipped-left app :color="selectMode ? 'indigo ' : undefined">
+      <v-app-bar-nav-icon
+        v-if="!selectMode"
+        @click="drawer = !drawer"
+      ></v-app-bar-nav-icon>
       <v-spacer />
       <v-text-field
+        v-if="!selectMode"
         hide-details
         prepend-inner-icon="mdi-magnify"
         label="search"
         v-model="search"
       />
       <v-spacer />
+      <v-btn v-if="selectMode" icon>
+        <v-icon color="white">mdi-arrow-collapse-down</v-icon>
+      </v-btn>
+      <v-btn v-if="selectMode" icon @click="cancelSelectMode">
+        <v-icon color="white">mdi-close</v-icon>
+      </v-btn>
     </v-app-bar>
   </div>
 </template>
@@ -43,6 +53,9 @@ export default class Bar extends Vue {
   }
   mounted() {
     this.$store.commit("getNewAnime");
+  }
+  cancelSelectMode() {
+    this.$store.commit("unSelectMode");
   }
   @Watch("search")
   whenSearchChange() {
