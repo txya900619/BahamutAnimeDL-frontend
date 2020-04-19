@@ -55,7 +55,7 @@ export default class AllAnimePage extends Vue {
   }
   @Watch("page")
   OnPageChange() {
-    window.getAnimesByPage(this.page).then(result => {
+    window.getAnimesByPage(this.page).then((result) => {
       this.animeData = JSON.parse(result);
     });
   }
@@ -64,10 +64,10 @@ export default class AllAnimePage extends Vue {
     index: number;
     ref: string;
   }) {
-    this.selectedIndexInPages[this.page - 1][info.index] = info.isSelect;
+    this.selectedIndexInPages[this.page - 1][info.index] = !info.isSelect;
     const sn = await window.getRealSn(info.ref);
     if (info.isSelect) {
-      this.selectedAnimes = this.selectedAnimes.filter(value => value !== sn);
+      this.selectedAnimes = this.selectedAnimes.filter((value) => value !== sn);
     } else {
       this.selectedAnimes.push(sn);
     }

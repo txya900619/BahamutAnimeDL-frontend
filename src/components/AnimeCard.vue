@@ -11,7 +11,7 @@
       class="white--text align-end"
       :gradient="
         isSelected
-          ? 'rgba(0,0,0,0) 1%,#42A5F5 '
+          ? 'rgba(0,0,0,0) 1%,#42A5F5'
           : 'to bottom,rgba(0,0,0,0),rgba(0,0,0,.5)'
       "
       lazy-src="@/assets/empty.png"
@@ -77,11 +77,11 @@ export default class AnimeCard extends Vue {
       this.firstSelected = true;
       this.$store.commit("toSelectMode");
     }
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       resolve({
         isSelected: this.isSelected,
         index: this.indexInPage,
-        ref: this.animeRef
+        ref: this.animeRef,
       });
       this.isSelected = !this.isSelected;
     });
