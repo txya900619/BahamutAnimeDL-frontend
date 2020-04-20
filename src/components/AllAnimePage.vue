@@ -41,7 +41,9 @@ export default class AllAnimePage extends Vue {
   showPagination = true;
   selectedAnimes: string[] = [];
   selectedIndexInPages: boolean[][] = [];
-
+  get selectMode() {
+    return this.$store.getters.selectMode;
+  }
   async mounted() {
     this.maxPage = await window.getMaxPage();
     for (let i = 0; i < this.maxPage; i++) {
@@ -58,6 +60,20 @@ export default class AllAnimePage extends Vue {
     window.getAnimesByPage(this.page).then((result) => {
       this.animeData = JSON.parse(result);
     });
+  }
+  @Watch("selectMode")
+  onSelectModeChange() {
+    if (!this.selectMode) {
+      this.selectedAnimes = [];
+      this.selectedIndexInPages.forEach((value, index) => {
+        const parentIndex = index;
+        value.forEach((value, index) => {
+          if (value) {
+            this.selectedIndexInPages[parentIndex][index] = false;
+          }
+        });
+      });
+    }
   }
   async clickOnSelectMode(info: {
     isSelect: boolean;

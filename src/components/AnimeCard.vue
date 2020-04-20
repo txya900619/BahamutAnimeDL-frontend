@@ -77,14 +77,24 @@ export default class AnimeCard extends Vue {
       this.firstSelected = true;
       this.$store.commit("toSelectMode");
     }
-    return new Promise((resolve) => {
-      resolve({
-        isSelected: this.isSelected,
-        index: this.indexInPage,
-        ref: this.animeRef,
+    if (this.animeRef) {
+      return new Promise((resolve) => {
+        resolve({
+          isSelected: this.isSelected,
+          index: this.indexInPage,
+          ref: this.animeRef,
+        });
+        this.isSelected = !this.isSelected;
       });
-      this.isSelected = !this.isSelected;
-    });
+    } else {
+      return new Promise((resolve) => {
+        resolve({
+          isSelected: this.isSelected,
+          sn: this.animeSn,
+        });
+        this.isSelected = !this.isSelected;
+      });
+    }
   }
 }
 </script>
