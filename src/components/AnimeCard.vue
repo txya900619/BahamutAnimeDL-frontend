@@ -21,13 +21,17 @@
         style="font-size: 20px; max-width: 100%;"
         class="d-inline-block text-truncate"
       ></v-card-title>
+      <v-dialog v-model="dialog">
+        <AnimeDialog></AnimeDialog>
+      </v-dialog>
     </v-img>
   </v-card>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Emit, Watch } from "vue-property-decorator";
-@Component
+import AnimeDialog from "./AnimeDialog.vue";
+@Component({ components: { AnimeDialog } })
 export default class AnimeCard extends Vue {
   @Prop(String) animeImg?: string;
   @Prop(String) animeTitle?: string;
@@ -39,7 +43,7 @@ export default class AnimeCard extends Vue {
   timer: number | null | undefined = null;
   firstSelected = false;
   isSelected = this.isSelectedOnRender;
-
+  dialog = false;
   get selectMode() {
     return this.$store.getters.selectMode;
   }
@@ -63,6 +67,8 @@ export default class AnimeCard extends Vue {
     }
     if (this.selectMode) {
       this.clickOnSelectMode();
+    } else {
+      this.dialog = true;
     }
   }
 
