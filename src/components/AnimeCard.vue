@@ -22,7 +22,7 @@
         class="d-inline-block text-truncate"
       ></v-card-title>
       <v-dialog v-model="dialog">
-        <AnimeDialog></AnimeDialog>
+        <AnimeDialog :Sns="dialogSns"></AnimeDialog>
       </v-dialog>
     </v-img>
   </v-card>
@@ -44,6 +44,7 @@ export default class AnimeCard extends Vue {
   firstSelected = false;
   isSelected = this.isSelectedOnRender;
   dialog = false;
+  dialogSns = [{ sn: "0", number: "1" }];
   get selectMode() {
     return this.$store.getters.selectMode;
   }
@@ -59,7 +60,7 @@ export default class AnimeCard extends Vue {
       this.timer = null;
     }
   }
-  onClick() {
+  async onClick() {
     this.cancelTimer();
     if (this.firstSelected) {
       this.firstSelected = false;
@@ -68,6 +69,14 @@ export default class AnimeCard extends Vue {
     if (this.selectMode) {
       this.clickOnSelectMode();
     } else {
+      if (this.animeSn) {
+        this.dialogSns = JSON.parse(await window.getAnimeAllSn(this.animeSn));
+        console.log(this.dialogSns);
+      }
+      if (this.animeRef) {
+        const realSn = await window.getRealSn(this.animeRef);
+        this.dialogSns = JSON.parse(await window.getAnimeAllSn(realSn));
+      }
       this.dialog = true;
     }
   }

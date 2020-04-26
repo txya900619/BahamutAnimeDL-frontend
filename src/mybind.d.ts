@@ -6,6 +6,7 @@ declare global {
     getMaxPage: () => Promise<any>;
     getAnimesByFilter: (input: string) => Promise<any>;
     getRealSn: (ref: string) => Promise<string>;
+    getAnimeAllSn: (sn: string) => Promise<any>;
   }
 }
 export default Window;
