@@ -13,7 +13,7 @@
           :animeImg="anime.img"
           :animeTitle="anime.title"
           :animeRef="anime.ref"
-          :isSelected.sync="selectedIndexInPages[page - 1][index]"
+          :isSelected="selectedIndexInPages[page - 1][index]"
           @clickOnSelectMode="clickOnSelectMode"
         ></AnimeCard>
       </v-col>
@@ -64,20 +64,37 @@ export default class AllAnimePage extends Vue {
   @Watch("selectMode")
   onSelectModeChange() {
     if (!this.selectMode) {
+      const newselectedIndexInPages = [];
+      for (let i = 0; i < this.maxPage; i++) {
+        const newPages = [];
+        for (let j = 0; j < 18; j++) {
+          newPages.push(false);
+        }
+        newselectedIndexInPages.push(newPages);
+        this.selectedIndexInPages = newselectedIndexInPages;
+      }
       this.selectedAnimes = [];
     }
   }
-  async clickOnSelectMode(info: {
-    isSelect: boolean;
-    index: number;
-    ref: string;
-  }) {
+  async clickOnSelectMode(info: { index: number; ref: string }) {
+    this.selectedIndexInPages[this.page - 1][info.index] = !this
+      .selectedIndexInPages[this.page - 1][info.index];
+    this.$set(
+      this.selectedIndexInPages,
+      this.page - 1,
+      this.selectedIndexInPages[this.page - 1]
+    );
     const sn = await window.getRealSn(info.ref);
-    if (info.isSelect) {
+    if (!this.selectedIndexInPages[this.page - 1][info.index]) {
       this.selectedAnimes = this.selectedAnimes.filter((value) => value !== sn);
+
+      if (this.selectedAnimes.length <= 0) {
+        this.$store.commit("unSelectMode");
+      }
     } else {
       this.selectedAnimes.push(sn);
     }
+    console.log(this.selectedAnimes);
   }
 }
 </script>

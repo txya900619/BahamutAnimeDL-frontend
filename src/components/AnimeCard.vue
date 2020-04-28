@@ -10,7 +10,7 @@
       height="100%"
       class="white--text align-end"
       :gradient="
-        syncedIsSelected
+        isSelected
           ? 'rgba(0,0,0,0) 1%,#42A5F5'
           : 'to bottom,rgba(0,0,0,0),rgba(0,0,0,.5)'
       "
@@ -29,14 +29,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-  Prop,
-  Emit,
-  Watch,
-  PropSync,
-} from "vue-property-decorator";
+import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 import AnimeDialog from "./AnimeDialog.vue";
 @Component({ components: { AnimeDialog } })
 export default class AnimeCard extends Vue {
@@ -45,7 +38,7 @@ export default class AnimeCard extends Vue {
   @Prop(String) animeSn?: string;
   @Prop(String) animeRef?: string;
   @Prop(Number) indexInPage?: number;
-  @PropSync("isSelected", Boolean) syncedIsSelected?: boolean;
+  @Prop() readonly isSelected?: boolean;
   src = this.animeImg;
   timer: number | null | undefined = null;
   firstSelected = false;
@@ -53,12 +46,6 @@ export default class AnimeCard extends Vue {
   dialogSns = [{ sn: "0", number: "1" }];
   get selectMode() {
     return this.$store.getters.selectMode;
-  }
-  @Watch("selectMode")
-  onSelectModeChange() {
-    if (!this.selectMode) {
-      this.syncedIsSelected = false;
-    }
   }
   cancelTimer() {
     if (this.timer !== null) {
@@ -99,22 +86,15 @@ export default class AnimeCard extends Vue {
       this.$store.commit("toSelectMode");
     }
     if (this.animeRef) {
-      return new Promise((resolve) => {
-        resolve({
-          isSelected: this.syncedIsSelected,
-          index: this.indexInPage,
-          ref: this.animeRef,
-        });
-        this.syncedIsSelected = !this.syncedIsSelected;
-      });
+      return {
+        index: this.indexInPage,
+        ref: this.animeRef,
+      };
     } else {
-      return new Promise((resolve) => {
-        resolve({
-          isSelected: this.syncedIsSelected,
-          sn: this.animeSn,
-        });
-        this.syncedIsSelected = !this.syncedIsSelected;
-      });
+      return {
+        isSelected: this.isSelected,
+        sn: this.animeSn,
+      };
     }
   }
 }

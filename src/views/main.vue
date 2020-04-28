@@ -4,7 +4,7 @@
     <v-content>
       <v-container>
         <router-view v-show="showPage" />
-        <SearchPage v-show="!showPage">> </SearchPage>
+        <SearchPage v-show="!showPage"> </SearchPage>
       </v-container>
       <FloatButton></FloatButton>
       <v-progress-circular
