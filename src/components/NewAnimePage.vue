@@ -1,10 +1,17 @@
 <template>
   <v-row>
-    <v-col md="4" lg="3" cols="6" v-for="anime in animeData" :key="anime.sn">
+    <v-col
+      md="4"
+      lg="3"
+      cols="6"
+      v-for="(anime, index) in animeData"
+      :key="anime.sn"
+    >
       <AnimeCard
         :animeImg="anime.img"
         :animeTitle="anime.title"
         :animeSn="anime.sn"
+        :isSelected.sync="animeSelectStatus[index]"
         @clickOnSelectMode="clickOnSelectMode"
       ></AnimeCard>
     </v-col>
@@ -16,11 +23,20 @@ import AnimeCard from "@/components/AnimeCard.vue";
 @Component({ components: { AnimeCard } })
 export default class NewAnimePage extends Vue {
   selectedAnimes: string[] = [];
+  animeSelectStatus: boolean[] = [];
   get animeData() {
     return this.$store.getters.newAnime;
   }
   get selectMode() {
     return this.$store.getters.selectMode;
+  }
+  @Watch("animeData")
+  onAnimeData() {
+    const newSelectArr = [];
+    for (let i = 0; i < this.animeData.length; i++) {
+      newSelectArr.push(false);
+    }
+    this.animeSelectStatus = newSelectArr;
   }
   @Watch("selectMode")
   onSelectModeChange() {

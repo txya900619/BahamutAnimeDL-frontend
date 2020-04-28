@@ -3,16 +3,8 @@
     <Bar></Bar>
     <v-content>
       <v-container>
-        <div v-show="showPage">
-          <keep-alive>
-            <router-view />
-          </keep-alive>
-        </div>
-        <div v-show="!showPage">
-          <keep-alive>
-            <SearchPage> </SearchPage>
-          </keep-alive>
-        </div>
+        <router-view v-show="showPage" />
+        <SearchPage v-show="!showPage">> </SearchPage>
       </v-container>
       <FloatButton></FloatButton>
       <v-progress-circular

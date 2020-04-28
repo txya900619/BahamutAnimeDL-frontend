@@ -1,10 +1,17 @@
 <template>
   <v-row>
-    <v-col md="4" lg="2" cols="6" v-for="anime in animeData" :key="anime.ref">
+    <v-col
+      md="4"
+      lg="2"
+      cols="6"
+      v-for="(anime, index) in animeData"
+      :key="anime.ref"
+    >
       <AnimeCard
         :animeImg="anime.img"
         :animeTitle="anime.title"
         :animeRef="anime.ref"
+        :isSelected.sync="animeSelectStatus[index]"
         @clickOnSelectMode="clickOnSelectMode"
       ></AnimeCard>
     </v-col>
@@ -22,6 +29,7 @@ export default class SearchPage extends Vue {
   }[] = [];
   searchUpdateTime = 0;
   selectedAnimes: string[] = [];
+  animeSelectStatus: boolean[] = [];
   get search() {
     return this.$store.getters.search;
   }
@@ -30,6 +38,14 @@ export default class SearchPage extends Vue {
   }
   async sleep(time: number) {
     return new Promise((r) => setTimeout(r, time));
+  }
+  @Watch("animeData")
+  onAnimeData() {
+    const newSelectArr = [];
+    for (let i = 0; i < this.animeData.length; i++) {
+      newSelectArr.push(false);
+    }
+    this.animeSelectStatus = newSelectArr;
   }
   @Watch("search")
   async OnSearchChange() {

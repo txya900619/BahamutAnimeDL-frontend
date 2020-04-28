@@ -13,7 +13,7 @@
           :animeImg="anime.img"
           :animeTitle="anime.title"
           :animeRef="anime.ref"
-          :isSelectedOnRender="selectedIndexInPages[page - 1][index]"
+          :isSelected.sync="selectedIndexInPages[page - 1][index]"
           @clickOnSelectMode="clickOnSelectMode"
         ></AnimeCard>
       </v-col>
@@ -65,14 +65,6 @@ export default class AllAnimePage extends Vue {
   onSelectModeChange() {
     if (!this.selectMode) {
       this.selectedAnimes = [];
-      this.selectedIndexInPages.forEach((value, index) => {
-        const parentIndex = index;
-        value.forEach((value, index) => {
-          if (value) {
-            this.selectedIndexInPages[parentIndex][index] = false;
-          }
-        });
-      });
     }
   }
   async clickOnSelectMode(info: {
@@ -80,7 +72,6 @@ export default class AllAnimePage extends Vue {
     index: number;
     ref: string;
   }) {
-    this.selectedIndexInPages[this.page - 1][info.index] = !info.isSelect;
     const sn = await window.getRealSn(info.ref);
     if (info.isSelect) {
       this.selectedAnimes = this.selectedAnimes.filter((value) => value !== sn);

@@ -10,7 +10,7 @@
       height="100%"
       class="white--text align-end"
       :gradient="
-        isSelected
+        syncedIsSelected
           ? 'rgba(0,0,0,0) 1%,#42A5F5'
           : 'to bottom,rgba(0,0,0,0),rgba(0,0,0,.5)'
       "
@@ -29,7 +29,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Emit, Watch } from "vue-property-decorator";
+import {
+  Component,
+  Vue,
+  Prop,
+  Emit,
+  Watch,
+  PropSync,
+} from "vue-property-decorator";
 import AnimeDialog from "./AnimeDialog.vue";
 @Component({ components: { AnimeDialog } })
 export default class AnimeCard extends Vue {
@@ -38,11 +45,10 @@ export default class AnimeCard extends Vue {
   @Prop(String) animeSn?: string;
   @Prop(String) animeRef?: string;
   @Prop(Number) indexInPage?: number;
-  @Prop(Boolean) isSelectedOnRender?: boolean;
+  @PropSync("isSelected", Boolean) syncedIsSelected?: boolean;
   src = this.animeImg;
   timer: number | null | undefined = null;
   firstSelected = false;
-  isSelected = this.isSelectedOnRender;
   dialog = false;
   dialogSns = [{ sn: "0", number: "1" }];
   get selectMode() {
@@ -51,7 +57,7 @@ export default class AnimeCard extends Vue {
   @Watch("selectMode")
   onSelectModeChange() {
     if (!this.selectMode) {
-      this.isSelected = false;
+      this.syncedIsSelected = false;
     }
   }
   cancelTimer() {
@@ -95,19 +101,19 @@ export default class AnimeCard extends Vue {
     if (this.animeRef) {
       return new Promise((resolve) => {
         resolve({
-          isSelected: this.isSelected,
+          isSelected: this.syncedIsSelected,
           index: this.indexInPage,
           ref: this.animeRef,
         });
-        this.isSelected = !this.isSelected;
+        this.syncedIsSelected = !this.syncedIsSelected;
       });
     } else {
       return new Promise((resolve) => {
         resolve({
-          isSelected: this.isSelected,
+          isSelected: this.syncedIsSelected,
           sn: this.animeSn,
         });
-        this.isSelected = !this.isSelected;
+        this.syncedIsSelected = !this.syncedIsSelected;
       });
     }
   }
