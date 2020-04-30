@@ -64,14 +64,14 @@ export default class AllAnimePage extends Vue {
   @Watch("selectMode")
   onSelectModeChange() {
     if (!this.selectMode) {
-      const newselectedIndexInPages = [];
+      const newSelectedIndexInPages = [];
       for (let i = 0; i < this.maxPage; i++) {
         const newPages = [];
         for (let j = 0; j < 18; j++) {
           newPages.push(false);
         }
-        newselectedIndexInPages.push(newPages);
-        this.selectedIndexInPages = newselectedIndexInPages;
+        newSelectedIndexInPages.push(newPages);
+        this.selectedIndexInPages = newSelectedIndexInPages;
       }
       this.selectedAnimes = [];
     }

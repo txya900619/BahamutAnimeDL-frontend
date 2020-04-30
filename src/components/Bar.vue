@@ -61,5 +61,12 @@ export default class Bar extends Vue {
   whenSearchChange() {
     this.$store.commit("changeSearch", this.search);
   }
+
+  @Watch("drawer")
+  whenDrawerChange() {
+    if (this.search) {
+      this.drawer = false;
+    }
+  }
 }
 </script>
