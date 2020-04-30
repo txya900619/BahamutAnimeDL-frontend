@@ -11,7 +11,8 @@
         :animeImg="anime.img"
         :animeTitle="anime.title"
         :animeSn="anime.sn"
-        :isSelected.sync="animeSelectStatus[index]"
+        :indexInPage="index"
+        :isSelected="animeSelectStatus[index]"
         @clickOnSelectMode="clickOnSelectMode"
       ></AnimeCard>
     </v-col>
@@ -24,12 +25,15 @@ import AnimeCard from "@/components/AnimeCard.vue";
 export default class NewAnimePage extends Vue {
   selectedAnimes: string[] = [];
   animeSelectStatus: boolean[] = [];
+
   get animeData() {
     return this.$store.getters.newAnime;
   }
+
   get selectMode() {
     return this.$store.getters.selectMode;
   }
+
   @Watch("animeData")
   onAnimeData() {
     const newSelectArr = [];
@@ -38,17 +42,32 @@ export default class NewAnimePage extends Vue {
     }
     this.animeSelectStatus = newSelectArr;
   }
+
   @Watch("selectMode")
   onSelectModeChange() {
     if (!this.selectMode) {
+      const newSelectArr = [];
+      for (let i = 0; i < this.animeData.length; i++) {
+        newSelectArr.push(false);
+      }
+      this.animeSelectStatus = newSelectArr;
       this.selectedAnimes = [];
     }
   }
-  clickOnSelectMode(info: { isSelect: boolean; sn: string }) {
-    if (info.isSelect) {
+
+  clickOnSelectMode(info: { index: number; sn: string }) {
+    this.$set(
+      this.animeSelectStatus,
+      info.index,
+      !this.animeSelectStatus[info.index]
+    );
+    if (!this.animeSelectStatus[info.index]) {
       this.selectedAnimes = this.selectedAnimes.filter(
         (value) => value !== info.sn
       );
+      if (this.selectedAnimes.length <= 0) {
+        this.$store.commit("unSelectMode");
+      }
     } else {
       this.selectedAnimes.push(info.sn);
     }

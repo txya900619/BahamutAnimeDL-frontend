@@ -11,7 +11,8 @@
         :animeImg="anime.img"
         :animeTitle="anime.title"
         :animeRef="anime.ref"
-        :isSelected.sync="animeSelectStatus[index]"
+        :indexInPage="index"
+        :isSelected="animeSelectStatus[index]"
         @clickOnSelectMode="clickOnSelectMode"
       ></AnimeCard>
     </v-col>
@@ -30,15 +31,19 @@ export default class SearchPage extends Vue {
   searchUpdateTime = 0;
   selectedAnimes: string[] = [];
   animeSelectStatus: boolean[] = [];
+
   get search() {
     return this.$store.getters.search;
   }
+
   get selectMode() {
     return this.$store.getters.selectMode;
   }
+
   async sleep(time: number) {
     return new Promise((r) => setTimeout(r, time));
   }
+
   @Watch("animeData")
   onAnimeData() {
     const newSelectArr = [];
@@ -47,6 +52,7 @@ export default class SearchPage extends Vue {
     }
     this.animeSelectStatus = newSelectArr;
   }
+
   @Watch("search")
   async OnSearchChange() {
     if (this.search != "") {
@@ -56,28 +62,38 @@ export default class SearchPage extends Vue {
       if (nowTime - this.searchUpdateTime < 500) {
         return;
       }
-      window.getAnimesByFilter(this.search).then((result) => {
-        this.animeData = JSON.parse(result);
-      });
+      this.animeData = JSON.parse(await window.getAnimesByFilter(this.search));
     } else {
       this.searchUpdateTime = new Date().valueOf();
       this.animeData = [];
     }
   }
+
   @Watch("selectMode")
   onSelectModeChange() {
     if (!this.selectMode) {
+      const newSelectArr = [];
+      for (let i = 0; i < this.animeData.length; i++) {
+        newSelectArr.push(false);
+      }
+      this.animeSelectStatus = newSelectArr;
+
       this.selectedAnimes = [];
     }
   }
-  async clickOnSelectMode(info: {
-    isSelect: boolean;
-    index: number;
-    ref: string;
-  }) {
+
+  async clickOnSelectMode(info: { index: number; ref: string }) {
+    this.$set(
+      this.animeSelectStatus,
+      info.index,
+      !this.animeSelectStatus[info.index]
+    );
     const sn = await window.getRealSn(info.ref);
-    if (info.isSelect) {
+    if (!this.animeSelectStatus[info.index]) {
       this.selectedAnimes = this.selectedAnimes.filter((value) => value !== sn);
+      if (this.selectedAnimes.length <= 0) {
+        this.$store.commit("unSelectMode");
+      }
     } else {
       this.selectedAnimes.push(sn);
     }

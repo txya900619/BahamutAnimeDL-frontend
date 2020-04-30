@@ -39,20 +39,24 @@ export default class AnimeCard extends Vue {
   @Prop(String) animeRef?: string;
   @Prop(Number) indexInPage?: number;
   @Prop() readonly isSelected?: boolean;
+
   src = this.animeImg;
   timer: number | null | undefined = null;
   firstSelected = false;
   dialog = false;
   dialogSns = [{ sn: "0", number: "1" }];
+
   get selectMode() {
     return this.$store.getters.selectMode;
   }
+
   cancelTimer() {
     if (this.timer !== null) {
       clearTimeout(this.timer);
       this.timer = null;
     }
   }
+
   async onClick() {
     this.cancelTimer();
     if (this.firstSelected) {
@@ -64,7 +68,6 @@ export default class AnimeCard extends Vue {
     } else {
       if (this.animeSn) {
         this.dialogSns = JSON.parse(await window.getAnimeAllSn(this.animeSn));
-        console.log(this.dialogSns);
       }
       if (this.animeRef) {
         const realSn = await window.getRealSn(this.animeRef);
@@ -75,27 +78,17 @@ export default class AnimeCard extends Vue {
   }
 
   onMouseDown() {
-    if (!this.selectMode) {
-      this.timer = setTimeout(this.clickOnSelectMode, 500);
-    }
+    if (!this.selectMode) this.timer = setTimeout(this.clickOnSelectMode, 500);
   }
+
   @Emit("clickOnSelectMode")
   clickOnSelectMode() {
     if (!this.selectMode) {
       this.firstSelected = true;
       this.$store.commit("toSelectMode");
     }
-    if (this.animeRef) {
-      return {
-        index: this.indexInPage,
-        ref: this.animeRef,
-      };
-    } else {
-      return {
-        isSelected: this.isSelected,
-        sn: this.animeSn,
-      };
-    }
+    if (this.animeRef) return { index: this.indexInPage, ref: this.animeRef };
+    else return { index: this.indexInPage, sn: this.animeSn };
   }
 }
 </script>
