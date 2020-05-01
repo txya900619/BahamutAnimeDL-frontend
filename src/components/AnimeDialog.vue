@@ -1,12 +1,14 @@
 <template>
   <v-card class="py-12">
-    <v-card-text>
-      <v-row justify="center" align="center">
-        <v-btn-toggle>
-          <v-btn v-for="oneSn in Sns" :key="oneSn.sn">{{ oneSn.number }}</v-btn>
-        </v-btn-toggle>
+    <v-container fluid>
+      <v-row justify="start">
+        <v-col v-for="oneSn in Sns" :key="oneSn.sn" md="1">
+          <v-row justify="center">
+            <v-btn>{{ oneSn.number }}</v-btn>
+          </v-row>
+        </v-col>
       </v-row>
-    </v-card-text>
+    </v-container>
   </v-card>
 </template>
 <script lang="ts">
