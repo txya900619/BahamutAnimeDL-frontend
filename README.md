@@ -1,6 +1,6 @@
 # BahamutAnimeDL-frontend
 
-## the frontend of BahamutAnimeDL-GUI build by vue.js ouo
+## the frontend of BahamutAnimeDL-GUI build by vue.js
 
 ### How to run this on `your computer?
 
