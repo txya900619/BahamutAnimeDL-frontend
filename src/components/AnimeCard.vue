@@ -22,7 +22,7 @@
         class="d-inline-block text-truncate"
       ></v-card-title>
       <v-dialog v-model="dialog">
-        <AnimeDialog :Sns="dialogSns"></AnimeDialog>
+        <AnimeDialog :sns="dialogSns" :title="animeTitle"></AnimeDialog>
       </v-dialog>
     </v-img>
   </v-card>
