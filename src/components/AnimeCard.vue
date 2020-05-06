@@ -44,7 +44,7 @@ export default class AnimeCard extends Vue {
   timer: number | null | undefined = null;
   firstSelected = false;
   dialog = false;
-  dialogSns = [{ sn: "0", number: "1" }];
+  dialogSns = { "1": [{ sn: "0", number: "1" }] };
 
   get selectMode() {
     return this.$store.getters.selectMode;
