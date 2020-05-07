@@ -14,7 +14,7 @@
           :animeTitle="anime.title"
           :animeRef="anime.ref"
           :isSelected="selectedIndexInPages[page - 1][index]"
-          @clickOnSelectMode="clickOnSelectMode"
+          @click-on-select-mode="clickOnSelectMode"
         ></AnimeCard>
       </v-col>
     </v-row>

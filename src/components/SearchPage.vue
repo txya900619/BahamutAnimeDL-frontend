@@ -13,7 +13,7 @@
         :animeRef="anime.ref"
         :indexInPage="index"
         :isSelected="animeSelectStatus[index]"
-        @clickOnSelectMode="clickOnSelectMode"
+        @click-on-select-mode="clickOnSelectMode"
       ></AnimeCard>
     </v-col>
   </v-row>

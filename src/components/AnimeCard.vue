@@ -81,7 +81,7 @@ export default class AnimeCard extends Vue {
     if (!this.selectMode) this.timer = setTimeout(this.clickOnSelectMode, 500);
   }
 
-  @Emit("clickOnSelectMode")
+  @Emit("click-on-select-mode")
   clickOnSelectMode() {
     if (!this.selectMode) {
       this.firstSelected = true;
