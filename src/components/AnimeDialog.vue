@@ -5,7 +5,11 @@
       <v-row justify="start" v-if="Object.keys(sns).length < 2">
         <v-col v-for="oneSn in sns['']" :key="oneSn.sn" md="1">
           <v-row justify="center">
-            <v-btn>{{ oneSn.number }}</v-btn>
+            <v-btn
+              @click="downloadAnimation(title, oneSn.number, oneSn.sn, false)"
+            >
+              {{ oneSn.number }}
+            </v-btn>
           </v-row>
         </v-col>
       </v-row>
@@ -14,7 +18,11 @@
         <v-row justify="start">
           <v-col v-for="oneSn in sns['本篇']" :key="oneSn.sn" md="1">
             <v-row justify="center">
-              <v-btn>{{ oneSn.number }}</v-btn>
+              <v-btn
+                @click="downloadAnimation(title, oneSn.number, oneSn.sn, false)"
+              >
+                {{ oneSn.number }}
+              </v-btn>
             </v-row>
           </v-col>
         </v-row>
@@ -22,7 +30,11 @@
         <v-row justify="start">
           <v-col v-for="oneSn in sns['特別篇']" :key="oneSn.sn" md="1">
             <v-row justify="center">
-              <v-btn>{{ oneSn.number }}</v-btn>
+              <v-btn
+                @click="downloadAnimation(title, oneSn.number, oneSn.sn, true)"
+              >
+                {{ oneSn.number }}
+              </v-btn>
             </v-row>
           </v-col>
         </v-row>
@@ -41,5 +53,9 @@ export default class AnimeDialog extends Vue {
     }[];
   };
   @Prop(String) title?: string;
+
+  downloadAnimation(title: string, ep: string, sn: string, spacial: boolean) {
+    window.insertAnimeToQueue(title, ep, sn, spacial);
+  }
 }
 </script>

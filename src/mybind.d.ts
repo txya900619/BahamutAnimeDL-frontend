@@ -7,6 +7,12 @@ declare global {
     getAnimesByFilter: (input: string) => Promise<any>;
     getRealSn: (ref: string) => Promise<string>;
     getAnimeAllSn: (sn: string) => Promise<any>;
+    insertAnimeToQueue: (
+      title: string,
+      ep: string,
+      sn: string,
+      spacial: boolean
+    ) => Promise<any>;
   }
 }
 export default Window;
