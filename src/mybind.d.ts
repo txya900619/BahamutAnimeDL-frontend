@@ -12,6 +12,7 @@ declare global {
       sn: string,
       spacial: boolean
     ) => Promise<any>;
+    getDownloadQueue: () => Promise<any>;
   }
 }
 export default Window;
