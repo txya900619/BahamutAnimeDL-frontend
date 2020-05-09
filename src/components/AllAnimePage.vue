@@ -53,12 +53,12 @@ export default class AllAnimePage extends Vue {
       }
       this.selectedIndexInPages.push(defaultSet);
     }
-    this.animeData = JSON.parse(await window.getAnimesByPage(1));
+    this.animeData = await window.getAnimesByPage(1);
   }
   @Watch("page")
   OnPageChange() {
-    window.getAnimesByPage(this.page).then((result) => {
-      this.animeData = JSON.parse(result);
+    window.getAnimesByPage(this.page).then(result => {
+      this.animeData = result;
     });
   }
   @Watch("selectMode")
@@ -86,7 +86,7 @@ export default class AllAnimePage extends Vue {
     );
     const sn = await window.getRealSn(info.ref);
     if (!this.selectedIndexInPages[this.page - 1][info.index]) {
-      this.selectedAnimes = this.selectedAnimes.filter((value) => value !== sn);
+      this.selectedAnimes = this.selectedAnimes.filter(value => value !== sn);
 
       if (this.selectedAnimes.length <= 0) {
         this.$store.commit("unSelectMode");

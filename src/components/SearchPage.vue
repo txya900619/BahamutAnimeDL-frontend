@@ -41,7 +41,7 @@ export default class SearchPage extends Vue {
   }
 
   async sleep(time: number) {
-    return new Promise((r) => setTimeout(r, time));
+    return new Promise(r => setTimeout(r, time));
   }
 
   @Watch("animeData")
@@ -62,7 +62,7 @@ export default class SearchPage extends Vue {
       if (nowTime - this.searchUpdateTime < 500) {
         return;
       }
-      this.animeData = JSON.parse(await window.getAnimesByFilter(this.search));
+      this.animeData = await window.getAnimesByFilter(this.search);
     } else {
       this.searchUpdateTime = new Date().valueOf();
       this.animeData = [];
@@ -90,7 +90,7 @@ export default class SearchPage extends Vue {
     );
     const sn = await window.getRealSn(info.ref);
     if (!this.animeSelectStatus[info.index]) {
-      this.selectedAnimes = this.selectedAnimes.filter((value) => value !== sn);
+      this.selectedAnimes = this.selectedAnimes.filter(value => value !== sn);
       if (this.selectedAnimes.length <= 0) {
         this.$store.commit("unSelectMode");
       }

@@ -7,12 +7,12 @@ export default new Vuex.Store({
   state: {
     newAnime: [],
     search: "",
-    selectMode: false,
+    selectMode: false
   },
   mutations: {
     getNewAnime(state) {
-      window.getNewAnimeList().then((result) => {
-        state.newAnime = JSON.parse(result);
+      window.getNewAnimeList().then(result => {
+        state.newAnime = result;
       });
     },
     changeSearch(state, searchText) {
@@ -23,19 +23,19 @@ export default new Vuex.Store({
     },
     unSelectMode(state) {
       state.selectMode = false;
-    },
+    }
   },
   actions: {},
   modules: {},
   getters: {
-    newAnime: (state) => {
+    newAnime: state => {
       return state.newAnime;
     },
-    search: (state) => {
+    search: state => {
       return state.search;
     },
-    selectMode: (state) => {
+    selectMode: state => {
       return state.selectMode;
-    },
-  },
+    }
+  }
 });
