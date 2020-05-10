@@ -67,11 +67,14 @@ export default class AnimeCard extends Vue {
       this.clickOnSelectMode();
     } else {
       if (this.animeSn) {
-        this.dialogSns = await window.getAnimeAllSn(this.animeSn);
+        this.dialogSns = await window.getAnimeAllSn(
+          this.animeTitle!,
+          this.animeSn
+        );
       }
       if (this.animeRef) {
         const realSn = await window.getRealSn(this.animeRef);
-        this.dialogSns = await window.getAnimeAllSn(realSn);
+        this.dialogSns = await window.getAnimeAllSn(this.animeTitle!, realSn);
       }
       this.dialog = true;
     }
