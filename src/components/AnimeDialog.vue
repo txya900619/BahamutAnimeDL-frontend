@@ -19,7 +19,7 @@
       <div v-else>
         <div style="font-size: 18px;font-weight: bold">本篇</div>
         <v-row justify="start">
-          <v-col v-for="(oneSn, index) in sns['本篇']" :key="oneSn.sn" md="1">
+          <v-col v-for="(oneSn, index) in sns['main']" :key="oneSn.sn" md="1">
             <v-row justify="center">
               <v-btn
                 :disabled="!oneSn.canDownload"
@@ -34,7 +34,11 @@
         </v-row>
         <div style="font-size: 18px;font-weight: bold">特別篇</div>
         <v-row justify="start">
-          <v-col v-for="(oneSn, index) in sns['特別篇']" :key="oneSn.sn" md="1">
+          <v-col
+            v-for="(oneSn, index) in sns['special']"
+            :key="oneSn.sn"
+            md="1"
+          >
             <v-row justify="center">
               <v-btn
                 :disabled="!oneSn.canDownload"
@@ -65,7 +69,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 @Component
 export default class AnimeDialog extends Vue {
   @Prop() sns?: {
-    特別篇: {
+    special: {
       sn: string;
       number: string;
       canDownload: boolean;
@@ -75,7 +79,7 @@ export default class AnimeDialog extends Vue {
       number: string;
       canDownload: boolean;
     }[];
-    本篇: {
+    main: {
       sn: string;
       number: string;
       canDownload: boolean;
@@ -93,12 +97,12 @@ export default class AnimeDialog extends Vue {
   ) {
     if (this.sns) {
       if (spacial) {
-        this.sns["特別篇"][index].canDownload = false;
+        this.sns["special"][index].canDownload = false;
       } else {
         if (Object.keys(this.sns).length < 2) {
           this.sns[""][index].canDownload = false;
         } else {
-          this.sns["本篇"][index].canDownload = false;
+          this.sns["main"][index].canDownload = false;
         }
       }
       window.insertAnimeToQueue(title, ep, sn, spacial).then(result => {
@@ -106,12 +110,12 @@ export default class AnimeDialog extends Vue {
           this.alert = true;
           if (this.sns) {
             if (spacial) {
-              this.sns["特別篇"][index].canDownload = true;
+              this.sns["special"][index].canDownload = true;
             } else {
               if (Object.keys(this.sns).length < 2) {
                 this.sns[""][index].canDownload = true;
               } else {
-                this.sns["本篇"][index].canDownload = true;
+                this.sns["main"][index].canDownload = true;
               }
             }
           }
