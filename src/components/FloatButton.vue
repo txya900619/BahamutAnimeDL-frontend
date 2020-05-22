@@ -19,22 +19,26 @@
       <v-card>
         <v-card-title>下載序列</v-card-title>
         <v-list>
-          <v-list-item v-for="item in queue" :key="item.name + item.ep">
-            <v-list-item-content>
-              <v-list-item-title>{{
-                item.name + " [" + item.ep + "]"
-              }}</v-list-item-title>
-              <v-progress-linear
-                v-if="item.downloading == 1"
-                :buffer-value="100"
-                :value="
-                  (downloadingStatus[item.sequence - 1] /
-                    (item.numberOfChunk + 1)) *
-                    100
-                "
-              ></v-progress-linear>
-            </v-list-item-content>
-          </v-list-item>
+          <Draggable>
+            <transition-group>
+              <v-list-item v-for="item in queue" :key="item.name + item.ep">
+                <v-list-item-content>
+                  <v-list-item-title>{{
+                    item.name + " [" + item.ep + "]"
+                  }}</v-list-item-title>
+                  <v-progress-linear
+                    v-if="item.downloading == 1"
+                    :buffer-value="100"
+                    :value="
+                      (downloadingStatus[item.sequence - 1] /
+                        (item.numberOfChunk + 1)) *
+                        100
+                    "
+                  ></v-progress-linear>
+                </v-list-item-content>
+              </v-list-item>
+            </transition-group>
+          </Draggable>
         </v-list>
       </v-card>
     </v-dialog>
@@ -42,7 +46,8 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-@Component
+import Draggable from "vuedraggable";
+@Component({ components: { Draggable } })
 export default class FloatButton extends Vue {
   dialog = false;
   queue = [
