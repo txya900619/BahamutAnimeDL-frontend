@@ -1,0 +1,10 @@
+@import "./mixin/reset";
+@import "./components/App/navbar";
+@include reset;
+
+#app {
+  position: relative;
+  height: 200vh;
+  width: 100vw;
+  @include navbar;
+}

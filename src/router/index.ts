@@ -1,34 +1,25 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Main from "../views/main.vue";
-import NewAnimePage from "../components/NewAnimePage.vue";
-import AllAnimePage from "../components/AllAnimePage.vue";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import Home from "../pages/Home.vue";
 
-Vue.use(VueRouter);
-
-const routes = [
+const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Main",
-    component: Main,
-    children: [
-      {
-        path: "/",
-        name: "NewAnimePage",
-        component: NewAnimePage
-      },
-      {
-        path: "/Animations",
-        name: "AllAnimePage",
-        component: AllAnimePage
-      }
-    ]
+    name: "Home",
+    component: Home
+  },
+  {
+    path: "/about",
+    name: "About",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../pages/About.vue")
   }
 ];
 
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes
 });
 
