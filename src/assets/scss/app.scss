@@ -1,10 +1,11 @@
 @import "./mixin/reset";
+@import "./mixin/scroll-lock";
 @import "./components/App/navbar";
 @include reset;
 
 #app {
   position: relative;
-  height: 200vh;
   width: 100vw;
+  @include scroll-lock;
   @include navbar;
 }

@@ -11,3 +11,11 @@ export default defineComponent({
   name: "Home"
 });
 </script>
+
+<style lang="scss">
+.home {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+</style>

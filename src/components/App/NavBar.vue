@@ -1,5 +1,5 @@
 <template>
-  <NavDrawer :value="true" />
+  <NavDrawer :value="isScrollLock" />
   <div id="navbar">
     <div class="navbar-item-container" @click="navDrawerOpen">
       <button class="navbar-item">
@@ -16,11 +16,18 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, inject, ref } from "vue";
 import NavDrawer from "./NavDrawer.vue";
-
+import Store from "../../store";
 export default defineComponent({
   name: "NavBar",
-  components: { NavDrawer }
+  components: { NavDrawer },
+  setup() {
+    const isScrollLock = inject(Store.isScrollLock, ref(false));
+    function navDrawerOpen() {
+      isScrollLock.value = true;
+    }
+    return { isScrollLock, navDrawerOpen };
+  }
 });
 </script>
