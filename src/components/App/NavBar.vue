@@ -1,7 +1,7 @@
 <template>
-  <NavDrawer :value="isScrollLock" />
+  <NavDrawer :value="isScrollLock" @close="unlock" />
   <div id="navbar">
-    <div class="navbar-item-container" @click="navDrawerOpen">
+    <div class="navbar-item-container" @click="lock">
       <button class="navbar-item">
         <div>
           <svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -16,18 +16,19 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, inject, ref } from "vue";
+import { defineComponent } from "vue";
 import NavDrawer from "./NavDrawer.vue";
 import Store from "../../store";
 export default defineComponent({
   name: "NavBar",
   components: { NavDrawer },
   setup() {
-    const isScrollLock = inject(Store.isScrollLock, ref(false));
-    function navDrawerOpen() {
-      isScrollLock.value = true;
-    }
-    return { isScrollLock, navDrawerOpen };
+    const { isScrollLock } = Store.useIsScrollLock();
+    return {
+      isScrollLock: isScrollLock.value,
+      lock: isScrollLock.lock,
+      unlock: isScrollLock.unlock
+    };
   }
 });
 </script>

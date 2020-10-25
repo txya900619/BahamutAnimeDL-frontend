@@ -1,7 +1,10 @@
 <template>
-  <aside id="nav-drawer" :class="{ open: value }">
-    <NavDrawerItem />
-  </aside>
+  <div id="nav-drawer" :class="{ open: value }">
+    <div class="mask" @click="emit('close')" />
+    <aside class="container">
+      <NavDrawerItem />
+    </aside>
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
@@ -16,6 +19,9 @@ export default defineComponent({
       type: Boolean,
       required: true
     }
+  },
+  setup(_props, { emit }) {
+    return { emit };
   }
 });
 </script>

@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, ref, watch } from "vue";
+import { defineComponent } from "vue";
 import NavBar from "./components/App/NavBar.vue";
 import Store from "./store";
 import "./assets/scss/app.scss";
@@ -21,16 +21,9 @@ export default defineComponent({
     NavBar
   },
   setup() {
-    const isScrollLock = ref(false);
-    const scrollY = ref(window.scrollY);
-    provide(Store.isScrollLock, isScrollLock);
-
-    watch(isScrollLock, v => {
-      if (v) {
-        scrollY.value = window.scrollY;
-      }
-    });
-    return { isScrollLock, scrollY };
+    Store.provideIsScrollLock();
+    const { isScrollLock } = Store.useIsScrollLock();
+    return { isScrollLock: isScrollLock.value, scrollY: isScrollLock.scrollY };
   }
 });
 </script>
