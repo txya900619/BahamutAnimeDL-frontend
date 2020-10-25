@@ -1,41 +1,38 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import { inject, provide, readonly, ref } from "vue";
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
-  state: {
-    newAnime: [],
-    search: "",
-    selectMode: false
-  },
-  mutations: {
-    getNewAnime(state) {
-      window.getNewAnimeList().then(result => {
-        state.newAnime = result;
-      });
-    },
-    changeSearch(state, searchText) {
-      state.search = searchText;
-    },
-    toSelectMode(state) {
-      state.selectMode = true;
-    },
-    unSelectMode(state) {
-      state.selectMode = false;
-    }
-  },
-  actions: {},
-  modules: {},
-  getters: {
-    newAnime: state => {
-      return state.newAnime;
-    },
-    search: state => {
-      return state.search;
-    },
-    selectMode: state => {
-      return state.selectMode;
-    }
+class ScrollLock {
+  private _isScrollLock = ref(false);
+  private _scrollY = ref(0);
+  public get value() {
+    return readonly(this._isScrollLock);
   }
-});
+  public get scrollY() {
+    return readonly(this._scrollY);
+  }
+  public lock = () => {
+    this._scrollY.value = window.scrollY;
+    this._isScrollLock.value = true;
+  };
+  public unlock = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: this._scrollY.value,
+        behavior: "auto"
+      });
+    });
+    this._isScrollLock.value = false;
+  };
+}
+
+const isScrollLock = Symbol("scrollLock");
+const createIsScrollLock = () => {
+  const isScrollLock = new ScrollLock();
+  return { isScrollLock };
+};
+const useIsScrollLock = () => inject(isScrollLock, createIsScrollLock());
+const provideIsScrollLock = () => provide(isScrollLock, createIsScrollLock());
+
+export default {
+  useIsScrollLock,
+  provideIsScrollLock
+};
