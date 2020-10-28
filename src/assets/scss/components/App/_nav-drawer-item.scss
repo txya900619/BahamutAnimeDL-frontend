@@ -1,0 +1,34 @@
+@mixin nav-drawer-item {
+  .item-container {
+    transition: all 0.3s;
+    .router-link {
+      display: block;
+      width: 100%;
+      padding: 1rem 2rem;
+      display: flex;
+      flex-direction: row;
+      border: none;
+      outline: none;
+      align-items: center;
+      text-decoration: none;
+      .icon-container {
+      }
+      .text-container {
+        font-size: 1rem;
+        font-weight: 500;
+      }
+    }
+    .item {
+      color: white;
+      background-color: transparent;
+    }
+
+    &:hover,
+    &.active {
+      .item {
+        color: rgb(104, 255, 142);
+        background-color: rgba(128, 128, 128, 0.507);
+      }
+    }
+  }
+}

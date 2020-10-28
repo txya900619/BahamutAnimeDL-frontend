@@ -8,14 +8,14 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Home"
+  name: "Home",
 });
 </script>
 
 <style lang="scss">
 .home {
+  position: relative;
   display: flex;
   justify-content: center;
-  width: 100vw;
 }
 </style>

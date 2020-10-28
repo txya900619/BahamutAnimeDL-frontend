@@ -1,12 +1,10 @@
-@import "./nav-drawer";
 $navbar-height: 60px;
 @mixin navbar {
-  @include nav-drawer;
   #navbar {
     height: $navbar-height;
     width: 100%;
     background-color: rgb(201, 201, 201);
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 8;
     .navbar-item-container {
