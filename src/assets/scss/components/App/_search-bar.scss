@@ -1,0 +1,28 @@
+@mixin search-bar {
+  #search-bar {
+    margin-left: 60px;
+    max-width: 500px;
+    flex-grow: 0.8;
+    display: flex;
+    align-items: center;
+    .navbar-item {
+      margin-left: 8px;
+      margin-right: 8px;
+      background-color: white;
+      width: 100%;
+      max-height: 35px;
+      border-radius: 8px;
+      .input-slot {
+        padding: 0 12px;
+        flex-grow: 1;
+        input {
+          background-color: inherit;
+          padding: 10px 0;
+          border-style: none;
+          outline: none;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
