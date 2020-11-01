@@ -24,6 +24,10 @@ $navbar-height: 60px;
 
         width: fit-content;
         background-color: transparent;
+        svg {
+          width: 24px;
+          height: 24px;
+        }
       }
     }
 
