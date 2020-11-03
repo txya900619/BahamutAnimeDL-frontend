@@ -33,6 +33,7 @@
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
+  name: "SearchBar",
   setup() {
     const focused = ref(false);
     const input = ref(null);
