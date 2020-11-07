@@ -1,5 +1,9 @@
 <template>
-  <div>{{ info }}</div>
+  <div class="anime-card">
+    <div class="title">{{ info.title }}</div>
+
+    <img :src="info.cover" />
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
