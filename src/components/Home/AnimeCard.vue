@@ -2,6 +2,8 @@
   <div class="anime-card">
     <div class="title">{{ info.title }}</div>
     <div class="shadow" />
+
+    <!-- IntersectionObserver? -->
     <img :src="info.cover" />
   </div>
 </template>

@@ -38,6 +38,8 @@ export default defineComponent({
     const focused = ref(false);
     const input = ref(null);
     return { focused, input };
+
+    //https://api.gamer.com.tw/mobile_app/anime/v1/search.php?kw=jojo
   },
 });
 </script>

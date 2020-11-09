@@ -4,13 +4,15 @@
   #nav-drawer {
     .drawer-mask {
       position: fixed;
+      visibility: hidden;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      display: none;
+      opacity: 0;
       background-color: #0000004d;
       z-index: 9;
+      transition: all 0.3s;
     }
 
     .drawer-container {
@@ -30,7 +32,10 @@
 
     &.open {
       .drawer-mask {
-        display: block;
+        opacity: 1;
+        visibility: visible;
+        transition: all 0.3s;
+        z-index: 9;
       }
 
       .drawer-container {
