@@ -1,7 +1,7 @@
 <template>
   <div class="anime-card">
     <div class="title">{{ info.title }}</div>
-
+    <div class="shadow" />
     <img :src="info.cover" />
   </div>
 </template>
