@@ -15,8 +15,8 @@
 <script lang="ts">
 import { defineComponent, inject, ref } from "vue";
 import NavDrawer from "./NavDrawer.vue";
-import SearchBar from "./SearchBar.vue";
-import NavBarButton from "./NavBarButton.vue";
+import SearchBar from "./NavBar/SearchBar.vue";
+import NavBarButton from "./NavBar/NavBarButton.vue";
 import Store from "../../store";
 export default defineComponent({
   name: "NavBar",

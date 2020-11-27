@@ -19,7 +19,7 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import NavDrawerItem from "./NavDrawerItem.vue";
+import NavDrawerItem from "./NavDrawer/NavDrawerItem.vue";
 import { routes } from "../../router";
 import { useRouter } from "vue-router";
 export default defineComponent({
