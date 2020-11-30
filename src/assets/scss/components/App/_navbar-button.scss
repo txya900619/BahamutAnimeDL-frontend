@@ -1,0 +1,16 @@
+@mixin navbar-button {
+  .navbar-button {
+    position: absolute;
+    width: $navbar-height;
+    top: 0;
+    left: 0;
+    .navbar-item {
+      outline: none;
+      border: none;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

@@ -1,11 +1,25 @@
 @import "./mixin/reset";
 @import "./mixin/scroll-lock";
 @import "./components/App/navbar";
+@import "./components/App/nav-drawer";
 @include reset;
+@include scroll-lock;
+
+body,
+html {
+  height: 100%;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
 
 #app {
   position: relative;
-  width: 100vw;
-  @include scroll-lock;
+  height: 100%;
+  padding-top: $navbar-height;
   @include navbar;
+  @include nav-drawer;
 }

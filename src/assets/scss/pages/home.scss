@@ -1,0 +1,8 @@
+@import "../components/Home/anime-card";
+
+#home {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  @include anime-card;
+}
