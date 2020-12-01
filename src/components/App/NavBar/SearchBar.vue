@@ -23,23 +23,60 @@
           </svg>
         </div>
         <div class="input-warp">
-          <input ref="input" @focus="focused = true" @blur="focused = false" />
+          <input
+            ref="input"
+            @focus="
+              () => {
+                if (!focused) {
+                  focused = true;
+                }
+              }
+            "
+            @blur="focused = false"
+            v-model="inputValue"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+// import { animeSearchResponseBody } from "@/types/AnimeCard";
+// import Axios from "axios";
+import { animeSearchResponseBody } from "@/types/AnimeCard";
+import Axios from "axios";
+import { defineComponent, ref, watch } from "vue";
 
 export default defineComponent({
   name: "SearchBar",
   setup() {
     const focused = ref(false);
     const input = ref(null);
-    return { focused, input };
-
-    //https://api.gamer.com.tw/mobile_app/anime/v1/search.php?kw=jojo
+    const inputValue = ref<string>("");
+    const searchResult = ref<animeSearchResponseBody>(
+      {} as animeSearchResponseBody
+    );
+    watch(
+      inputValue,
+      delay(async (v) => {
+        searchResult.value = (
+          await Axios.get(`/api/anime/v1/search.php?kw=${v}`)
+        ).data;
+      })
+    );
+    return { focused, input, inputValue, searchResult };
   },
 });
+
+function delay(fn: (...args: unknown[]) => void) {
+  let timer: number | null = null;
+  return (...args: unknown[]) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      fn(...args);
+    }, 500);
+  };
+}
 </script>
