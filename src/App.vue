@@ -18,6 +18,9 @@ export default defineComponent({
     const isScrollLock = ref(false);
     provide(Store.isScrollLock, isScrollLock);
 
+    const homeSortByPopular = ref(false);
+    provide(Store.homeSortByPopular, homeSortByPopular);
+
     watch(isScrollLock, (v) => {
       if (v) {
         document.body.classList.add("scroll-lock");
