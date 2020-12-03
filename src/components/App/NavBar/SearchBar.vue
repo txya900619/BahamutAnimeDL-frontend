@@ -7,7 +7,9 @@
           input.focus();
         }
       "
-      :class="{ 'input-focus': focused }"
+      :class="{
+        'input-focus': focused,
+      }"
     >
       <div class="input-slot">
         <div class="icon-warp">
@@ -38,6 +40,16 @@
         </div>
       </div>
     </div>
+    <div class="temp-search-result" v-if="inputValue">
+      <div class="notfound" v-if="!searchResult.anime.length">
+        找不到與{{ inputValue }}有關的動畫
+      </div>
+      <AnimeCard
+        :key="animeInfo.video_sn"
+        v-for="animeInfo in searchResult.anime"
+        :info="animeInfo"
+      />
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -46,9 +58,10 @@
 import { animeSearchResponseBody } from "@/types/AnimeCard";
 import Axios from "axios";
 import { defineComponent, ref, watch } from "vue";
-
+import AnimeCard from "../../shared/AnimeCard.vue";
 export default defineComponent({
   name: "SearchBar",
+  components: { AnimeCard },
   setup() {
     const focused = ref(false);
     const input = ref(null);

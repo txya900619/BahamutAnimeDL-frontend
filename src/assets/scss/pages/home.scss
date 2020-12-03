@@ -1,8 +1,12 @@
-@import "../components/Home/anime-card";
+@import "../components/shared/anime-card";
 
 #home {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   @include anime-card;
+  .anime-card {
+    width: 240px;
+    height: 176px;
+  }
 }
