@@ -3,6 +3,7 @@
 @import "./mixin/variable";
 @import "./components/App/navbar";
 @import "./components/App/nav-drawer";
+@import "./components/shared/loading-circle";
 @include reset;
 @include scroll-lock;
 
@@ -23,4 +24,5 @@ html {
   padding-top: $navbar-height;
   @include navbar;
   @include nav-drawer;
+  @include loading-circle;
 }

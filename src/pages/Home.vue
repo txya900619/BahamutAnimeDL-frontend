@@ -2,8 +2,8 @@
   <div id="home">
     <!-- <h1>本季新番</h1> -->
     <AnimeCard
-      :key="animeInfo.video_sn"
       v-for="animeInfo in animeInfos"
+      :key="animeInfo.video_sn"
       :info="animeInfo"
     />
   </div>

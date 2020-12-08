@@ -2,14 +2,14 @@
   <div id="search-bar" class="navbar-item-container">
     <div
       class="navbar-item"
+      :class="{
+        'input-focus': focused,
+      }"
       @click="
         () => {
           input.focus();
         }
       "
-      :class="{
-        'input-focus': focused,
-      }"
     >
       <div class="input-slot">
         <div class="icon-warp">
@@ -27,6 +27,7 @@
         <div class="input-warp">
           <input
             ref="input"
+            v-model="inputValue"
             @focus="
               () => {
                 if (!focused) {
@@ -35,49 +36,82 @@
               }
             "
             @blur="focused = false"
-            v-model="inputValue"
           />
         </div>
       </div>
     </div>
-    <div class="temp-search-result" v-if="inputValue">
-      <div class="notfound" v-if="!searchResult.anime.length">
+    <div v-if="tempSearchResult" class="temp-search-result">
+      <LoadingCircle v-if="waiting" />
+      <div
+        v-if="
+          (searchResult.anime ? !searchResult.anime.length : true) && !waiting
+        "
+        class="notfound"
+      >
         找不到與{{ inputValue }}有關的動畫
       </div>
-      <AnimeCard
-        :key="animeInfo.video_sn"
-        v-for="animeInfo in searchResult.anime"
-        :info="animeInfo"
-      />
+      <div
+        v-if="
+          !waiting && (searchResult.anime ? searchResult.anime.length : false)
+        "
+        class="card-container"
+      >
+        <AnimeCard
+          v-for="animeInfo in searchResult.anime"
+          :key="animeInfo.video_sn"
+          :info="animeInfo"
+        />
+      </div>
     </div>
+    <div
+      v-if="tempSearchResult"
+      class="background-shadow"
+      @click="tempSearchResult = false"
+    />
   </div>
 </template>
 <script lang="ts">
-// import { animeSearchResponseBody } from "@/types/AnimeCard";
-// import Axios from "axios";
+import store from "@/store";
 import { animeSearchResponseBody } from "@/types/AnimeCard";
 import Axios from "axios";
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, inject, ref, watch } from "vue";
 import AnimeCard from "../../shared/AnimeCard.vue";
+import LoadingCircle from "../../shared/LoadingCircle.vue";
+
 export default defineComponent({
   name: "SearchBar",
-  components: { AnimeCard },
+  components: { AnimeCard, LoadingCircle },
   setup() {
+    const isScrollLock = inject(store.isScrollLock, ref(false));
     const focused = ref(false);
     const input = ref(null);
     const inputValue = ref<string>("");
     const searchResult = ref<animeSearchResponseBody>(
       {} as animeSearchResponseBody
     );
-    watch(
-      inputValue,
+    const tempSearchResult = ref(false);
+    const waiting = ref(false);
+
+    watch(inputValue, (v) => {
+      waiting.value = true;
+      tempSearchResult.value = Boolean(inputValue.value);
+      isScrollLock.value = Boolean(inputValue.value);
       delay(async (v) => {
         searchResult.value = (
           await Axios.get(`/api/anime/v1/search.php?kw=${v}`)
         ).data;
-      })
-    );
-    return { focused, input, inputValue, searchResult };
+        waiting.value = false;
+      })(v);
+    });
+
+    return {
+      focused,
+      input,
+      inputValue,
+      searchResult,
+      tempSearchResult,
+      waiting,
+    };
   },
 });
 
