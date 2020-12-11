@@ -2,12 +2,14 @@
   <div id="search-bar" class="navbar-item-container">
     <div
       class="navbar-item"
+      :class="{
+        'input-focus': focused,
+      }"
       @click="
         () => {
           input.focus();
         }
       "
-      :class="{ 'input-focus': focused }"
     >
       <div class="input-slot">
         <div class="icon-warp">
@@ -23,23 +25,103 @@
           </svg>
         </div>
         <div class="input-warp">
-          <input ref="input" @focus="focused = true" @blur="focused = false" />
+          <input
+            ref="input"
+            v-model="inputValue"
+            @focus="
+              () => {
+                if (!focused) {
+                  focused = true;
+                }
+              }
+            "
+            @blur="focused = false"
+          />
         </div>
       </div>
     </div>
+    <div v-if="tempSearchResult" class="temp-search-result">
+      <LoadingCircle v-if="waiting" />
+      <div
+        v-if="
+          (searchResult.anime ? !searchResult.anime.length : true) && !waiting
+        "
+        class="notfound"
+      >
+        找不到與{{ inputValue }}有關的動畫
+      </div>
+      <VirtualAnimeCardList
+        v-if="
+          !waiting && (searchResult.anime ? searchResult.anime.length : false)
+        "
+        :child-width="220"
+        :row-height="347.5"
+        :animes="searchResult.anime"
+        :viewport-height-mutiple="0.9"
+        :viewport-width-mutiple="0.9"
+      />
+    </div>
+    <div
+      v-if="tempSearchResult"
+      class="background-shadow"
+      @click="tempSearchResult = false"
+    />
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import store from "@/store";
+import { animeSearchResponseBody } from "@/types/AnimeCard";
+import Axios from "axios";
+import { defineComponent, inject, ref, watch } from "vue";
+import VirtualAnimeCardList from "../../shared/VirtualAnimeCardList.vue";
+import LoadingCircle from "../../shared/LoadingCircle.vue";
 
 export default defineComponent({
   name: "SearchBar",
+  components: { VirtualAnimeCardList, LoadingCircle },
   setup() {
+    const isScrollLock = inject(store.isScrollLock, ref(false));
     const focused = ref(false);
     const input = ref(null);
-    return { focused, input };
+    const inputValue = ref<string>("");
+    const searchResult = ref<animeSearchResponseBody>(
+      {} as animeSearchResponseBody
+    );
+    const tempSearchResult = ref(false);
+    const waiting = ref(false);
 
-    //https://api.gamer.com.tw/mobile_app/anime/v1/search.php?kw=jojo
+    watch(inputValue, (v) => {
+      waiting.value = true;
+      tempSearchResult.value = Boolean(inputValue.value);
+      isScrollLock.value = Boolean(inputValue.value);
+      delay(async (v) => {
+        searchResult.value = (
+          await Axios.get(`/api/anime/v1/search.php?kw=${v}`)
+        ).data;
+        waiting.value = false;
+      })(v);
+    });
+
+    return {
+      focused,
+      input,
+      inputValue,
+      searchResult,
+      tempSearchResult,
+      waiting,
+    };
   },
 });
+
+function delay(fn: (...args: unknown[]) => void) {
+  let timer: number | null = null;
+  return (...args: unknown[]) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      fn(...args);
+    }, 500);
+  };
+}
 </script>

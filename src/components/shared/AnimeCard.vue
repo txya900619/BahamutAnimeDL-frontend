@@ -11,6 +11,7 @@
 import { defineComponent, PropType } from "vue";
 import { animeInfo } from "../../types/AnimeCard";
 export default defineComponent({
+  name: "AnimeCard",
   props: {
     info: { type: Object as PropType<animeInfo>, required: true },
   },

@@ -1,6 +1,6 @@
 @mixin navbar-button {
   .navbar-button {
-    position: absolute;
+    position: relative;
     width: $navbar-height;
     top: 0;
     left: 0;

@@ -1,0 +1,12 @@
+@mixin virtual-list {
+  .virtual-anime-card-list {
+    overflow-y: auto;
+    .virtual-anime-card-list-content {
+      overflow-y: hidden;
+      .visible-nodes {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+  }
+}

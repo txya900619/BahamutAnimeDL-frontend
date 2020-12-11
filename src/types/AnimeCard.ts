@@ -8,7 +8,7 @@ export interface animeInfo {
   title: string;
   dc_c1: string;
   dc_c2: string;
-  week: string;
+  week?: string;
   favorite: string;
   cover: string;
   info: string;
@@ -18,6 +18,15 @@ export interface animeInfo {
     edition: string;
     vipTime: string;
   };
+}
+
+export interface acgInfo {
+  acg_sn: string;
+  title: string;
+  dc_c1: string;
+  dc_c2: string;
+  hope: string;
+  cover: string;
 }
 
 export interface aniChannel {
@@ -63,4 +72,9 @@ export class animeIndexResponseBody {
   gnn_list: gnn[] = [];
   forum_list: forum[] = [];
   ad = [];
+}
+
+export interface animeSearchResponseBody {
+  anime: animeInfo[];
+  acg: acgInfo[];
 }
