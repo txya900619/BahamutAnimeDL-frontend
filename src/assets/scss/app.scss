@@ -4,6 +4,7 @@
 @import "./components/App/navbar";
 @import "./components/App/nav-drawer";
 @import "./components/shared/loading-circle";
+@import "./components/shared/virtual-list";
 @include reset;
 @include scroll-lock;
 
@@ -25,4 +26,5 @@ html {
   @include navbar;
   @include nav-drawer;
   @include loading-circle;
+  @include virtual-list;
 }

@@ -50,18 +50,16 @@
       >
         找不到與{{ inputValue }}有關的動畫
       </div>
-      <div
+      <VirtualAnimeCardList
         v-if="
           !waiting && (searchResult.anime ? searchResult.anime.length : false)
         "
-        class="card-container"
-      >
-        <AnimeCard
-          v-for="animeInfo in searchResult.anime"
-          :key="animeInfo.video_sn"
-          :info="animeInfo"
-        />
-      </div>
+        :child-width="220"
+        :row-height="347.5"
+        :animes="searchResult.anime"
+        :viewport-height-mutiple="0.9"
+        :viewport-width-mutiple="0.9"
+      />
     </div>
     <div
       v-if="tempSearchResult"
@@ -75,12 +73,12 @@ import store from "@/store";
 import { animeSearchResponseBody } from "@/types/AnimeCard";
 import Axios from "axios";
 import { defineComponent, inject, ref, watch } from "vue";
-import AnimeCard from "../../shared/AnimeCard.vue";
+import VirtualAnimeCardList from "../../shared/VirtualAnimeCardList.vue";
 import LoadingCircle from "../../shared/LoadingCircle.vue";
 
 export default defineComponent({
   name: "SearchBar",
-  components: { AnimeCard, LoadingCircle },
+  components: { VirtualAnimeCardList, LoadingCircle },
   setup() {
     const isScrollLock = inject(store.isScrollLock, ref(false));
     const focused = ref(false);
